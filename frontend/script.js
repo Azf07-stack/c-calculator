@@ -1,13 +1,15 @@
 const screen = document.querySelector('.calculator-screen');
 const buttons = document.querySelectorAll('button');
 
-// REFACTOR 1: We moved the internet logic into its own clean, dedicated function.
-// The 'async' keyword tells JS this function will take some time to finish.
 async function sendToBackend(n1, opCode, n2) {
-    const serverURL = `http://localhost:8080/?n1=${n1}&op=${opCode}&n2=${n2}`;
+    // 1. DELETE the old localhost line.
+    // 2. PASTE your Render URL here. 
+    // IMPORTANT: Do NOT put a slash (/) at the very end of the URL!
+    const backendBaseUrl = 'https://c-calculator.onrender.com'; 
+    
+    const serverURL = `${backendBaseUrl}/?n1=${n1}&op=${opCode}&n2=${n2}`;
     
     try {
-        // 'await' tells JS to pause on this line until the server actually replies
         const response = await fetch(serverURL);
         const answer = await response.text();
         screen.innerText = answer;
@@ -16,6 +18,8 @@ async function sendToBackend(n1, opCode, n2) {
         screen.innerText = "Server Error";
     }
 }
+
+// ... the rest of your button logic stays exactly the same ...
 
 // REFACTOR 2: Our button logic is much shorter and easier to read now.
 buttons.forEach(button => {
